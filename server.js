@@ -42,7 +42,7 @@ async function seed() {
   }
   const admin = await db.users.findOne({ role: 'admin' });
   if (!admin) {
-    const hash = await bcrypt.hash('admin123', 10);
+    const hash = await bcrypt.hash('Mata76!', 10);
     const uid = 'UID-' + uuidv4().split('-')[0].toUpperCase();
     await db.users.insert({
       uid, username: 'Admin', email: 'admin@nexus.local',
@@ -51,7 +51,7 @@ async function seed() {
     });
     // seed a starter invite
     await db.invites.insert({ code: 'NEXUS-BETA', createdBy: uid, used: false, createdAt: Date.now() });
-    console.log('Admin created. Username: Admin, Password: admin123');
+    console.log('Admin created. Username: Admin, Password: Mata76!');
     console.log('Starter invite code: NEXUS-BETA');
   }
 }
