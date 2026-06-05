@@ -1,648 +1,836 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEXUS Forum</title>
+<title>Equinox</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0a0c0f;--bg2:#0f1217;--bg3:#151a22;--card:#13171f;
-  --border:#1e2530;--accent:#e8702a;--accent2:#ff4d00;
-  --text:#c8d0dc;--muted:#5a6475;--green:#2aeb7c;
-  --blue:#4d9fff;--red:#ff3d3d;--yellow:#f5c842;
+  --bg:#07090d;--bg2:#0c0f15;--bg3:#11151e;--card:#0e121a;
+  --border:#1c2333;--border2:#243044;
+  --accent:#6c8ef5;--accent2:#4f6de0;--accent-glow:rgba(108,142,245,.15);
+  --text:#c9d3e8;--muted:#4a5670;--muted2:#6b7a99;
+  --green:#34d399;--purple:#a78bfa;--orange:#fb923c;--gold:#f59e0b;
+  --red:#f87171;--pink:#f472b6;
+  --owner:#f59e0b;--admin:#fb923c;--media:#a78bfa;--member:#6c8ef5;
 }
-body{background:var(--bg);font-family:'Noto Sans',sans-serif;color:var(--text);min-height:100vh;font-size:14px}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-size:14px;display:flex;flex-direction:column}
 a{text-decoration:none;color:inherit}
-input,textarea{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:8px 12px;color:var(--text);font-family:'Noto Sans',sans-serif;font-size:14px;width:100%;outline:none;transition:border .15s}
-input:focus,textarea:focus{border-color:var(--accent)}
-textarea{resize:vertical;min-height:100px}
-button{font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1px;text-transform:uppercase;font-size:13px;border:none;border-radius:4px;cursor:pointer;padding:9px 20px;transition:all .15s}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-primary:hover{background:var(--accent2)}
-.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
-.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
-.btn-danger{background:#2a0d0d;color:var(--red);border:1px solid #4a1a1a}
-.btn-danger:hover{background:var(--red);color:#fff}
-.btn-sm{padding:5px 12px;font-size:11px}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
 
-/* NAVBAR */
-.navbar{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;position:sticky;top:0;z-index:200}
-.logo{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;letter-spacing:4px;color:#fff;cursor:pointer}
-.logo span{color:var(--accent)}
-.nav-links{display:flex;gap:2px}
-.nav-links a{font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;letter-spacing:1.5px;color:var(--muted);padding:6px 14px;border-radius:4px;cursor:pointer;text-transform:uppercase;transition:all .15s}
-.nav-links a:hover,.nav-links a.active{color:#fff;background:var(--bg3)}
-.nav-right{display:flex;align-items:center;gap:10px}
-.user-pill{display:flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;cursor:pointer}
-.user-pill:hover{border-color:var(--accent)}
-.avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:12px;color:#fff;flex-shrink:0}
-.avatar-lg{width:52px;height:52px;font-size:20px}
+/* INPUTS */
+input,textarea,select{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 14px;color:var(--text);font-family:'Inter',sans-serif;font-size:14px;width:100%;outline:none;transition:border .15s,box-shadow .15s}
+input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+textarea{resize:vertical;min-height:120px;line-height:1.6}
+select option{background:var(--bg3)}
+
+/* BUTTONS */
+button{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;border:none;border-radius:8px;cursor:pointer;padding:9px 20px;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--muted2);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-glow)}
+.btn-danger{background:rgba(248,113,113,.1);color:var(--red);border:1px solid rgba(248,113,113,.2)}
+.btn-danger:hover{background:var(--red);color:#fff}
+.btn-success{background:rgba(52,211,153,.1);color:var(--green);border:1px solid rgba(52,211,153,.2)}
+.btn-sm{padding:5px 12px;font-size:11px}
+.btn-xs{padding:3px 8px;font-size:10px}
 
 /* LAYOUT */
-.page{display:none;min-height:calc(100vh - 52px)}
+.app{display:flex;flex-direction:column;height:100vh}
+.navbar{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:56px;flex-shrink:0;z-index:200}
+.logo{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;letter-spacing:1px;color:#fff;cursor:pointer;display:flex;align-items:center;gap:10px}
+.logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.nav-links{display:flex;gap:2px}
+.nav-link{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:500;color:var(--muted2);padding:6px 14px;border-radius:6px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px}
+.nav-link:hover,.nav-link.active{color:#fff;background:var(--bg3)}
+.nav-right{display:flex;align-items:center;gap:8px}
+
+/* CONTENT AREA */
+.content-area{flex:1;overflow:hidden;display:flex}
+.main-scroll{flex:1;overflow-y:auto;padding:24px 28px}
+.sidebar{width:260px;border-left:1px solid var(--border);overflow-y:auto;padding:20px;flex-shrink:0}
+
+/* PAGES */
+.page{display:none;width:100%}
 .page.active{display:block}
-.container{max-width:1100px;margin:0 auto;padding:24px}
-.layout-2col{display:grid;grid-template-columns:1fr 240px;gap:20px}
 
 /* CARDS */
-.card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.card-header{background:var(--bg3);padding:10px 16px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.card-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg3)}
+.card-header-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:var(--muted2);text-transform:uppercase;letter-spacing:1.5px}
 
-/* SECTION HEADER */
-.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.sec-title{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;display:flex;align-items:center;gap:8px}
-.sec-title::before{content:'';width:3px;height:18px;background:var(--accent);border-radius:2px;display:block}
-
-/* FORUM ROW */
-.forum-row{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;padding:14px 18px;border-bottom:1px solid var(--border);gap:14px;cursor:pointer;transition:background .1s}
-.forum-row:last-child{border-bottom:none}
-.forum-row:hover{background:var(--bg3)}
-.f-icon{width:38px;height:38px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.f-name{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;color:#dde4ee}
-.f-desc{font-size:11px;color:var(--muted);margin-top:2px}
-.f-stats{text-align:center;font-size:11px;color:var(--muted);min-width:70px}
-.f-stats strong{display:block;font-size:15px;font-family:'Rajdhani',sans-serif;color:var(--text);font-weight:700}
-.f-latest{font-size:11px;color:var(--muted);min-width:180px;text-align:right}
-.f-latest a{color:var(--blue)}
+/* CATEGORY ROW */
+.cat-row{display:grid;grid-template-columns:48px 1fr 80px 80px 200px;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border);gap:16px;cursor:pointer;transition:background .1s}
+.cat-row:last-child{border-bottom:none}
+.cat-row:hover{background:rgba(108,142,245,.04)}
+.cat-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.cat-name{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:#e2e8f0}
+.cat-desc{font-size:12px;color:var(--muted2);margin-top:2px}
+.cat-stat{text-align:center}
+.cat-stat strong{display:block;font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;color:#e2e8f0}
+.cat-stat span{font-size:11px;color:var(--muted)}
+.cat-latest{font-size:12px;color:var(--muted2);text-align:right}
+.cat-latest-title{color:var(--accent);font-size:12px;font-weight:500;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:195px}
 
 /* THREAD ROW */
-.thread-row{display:grid;grid-template-columns:1fr auto auto;align-items:center;padding:12px 18px;border-bottom:1px solid var(--border);gap:14px;cursor:pointer;transition:background .1s}
+.thread-row{display:grid;grid-template-columns:1fr 90px 70px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--border);gap:14px;cursor:pointer;transition:background .1s}
 .thread-row:last-child{border-bottom:none}
-.thread-row:hover{background:var(--bg3)}
-.t-title{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;color:#dde4ee}
-.t-meta{font-size:11px;color:var(--muted);margin-top:3px}
-.t-stats{text-align:center;font-size:11px;color:var(--muted);min-width:60px}
-.t-stats strong{display:block;font-size:14px;font-family:'Rajdhani',sans-serif;color:var(--text)}
+.thread-row:hover{background:rgba(108,142,245,.04)}
+.thread-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:#e2e8f0;display:flex;align-items:center;gap:8px}
+.thread-meta{font-size:11px;color:var(--muted2);margin-top:4px}
+.thread-stat{text-align:center;font-size:11px;color:var(--muted)}
+.thread-stat strong{display:block;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:var(--text)}
 
-/* POST */
-.post{border-bottom:1px solid var(--border);padding:18px}
-.post:last-child{border-bottom:none}
-.post-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.post-author{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:14px;color:#dde4ee}
-.post-time{font-size:11px;color:var(--muted)}
-.post-content{line-height:1.7;color:var(--text);white-space:pre-wrap;word-break:break-word}
+/* POSTS */
+.post-wrap{padding:20px;border-bottom:1px solid var(--border)}
+.post-wrap:last-child{border-bottom:none}
+.post-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+.post-author-row{display:flex;align-items:center;gap:12px}
+.post-content{color:var(--text);line-height:1.75;white-space:pre-wrap;word-break:break-word;font-size:14px}
+
+/* AVATARS */
+.avatar{border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:600;color:#fff;flex-shrink:0;text-transform:uppercase}
+.avatar-sm{width:32px;height:32px;font-size:13px}
+.avatar-md{width:40px;height:40px;font-size:16px}
+.avatar-lg{width:52px;height:52px;font-size:20px}
+
+/* ROLE BADGES */
+.role-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;font-family:'Space Grotesk',sans-serif;letter-spacing:.5px}
+.role-owner{background:rgba(245,158,11,.12);color:var(--owner);border:1px solid rgba(245,158,11,.25)}
+.role-admin{background:rgba(251,146,60,.12);color:var(--admin);border:1px solid rgba(251,146,60,.25)}
+.role-media_partner{background:rgba(167,139,250,.12);color:var(--media);border:1px solid rgba(167,139,250,.25)}
+.role-member{background:rgba(108,142,245,.12);color:var(--member);border:1px solid rgba(108,142,245,.25)}
 
 /* BADGES */
-.badge{display:inline-block;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:700;font-family:'Rajdhani',sans-serif;letter-spacing:1px;text-transform:uppercase;margin-left:6px}
-.badge-green{background:#0d2b1a;color:var(--green);border:1px solid #1a4a2e}
-.badge-red{background:#2a0d0d;color:var(--red);border:1px solid #4a1a1a}
-.badge-blue{background:#0d1a2a;color:var(--blue);border:1px solid #1a3a5a}
-.badge-orange{background:#2a1a07;color:var(--accent);border:1px solid #4a2a0a}
-.badge-pin{background:#2a2000;color:var(--yellow);border:1px solid #4a3a00}
-
-/* SIDEBAR */
-.stat-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px}
-.stat-row:last-child{border-bottom:none}
-.stat-val{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;color:#dde4ee}
-.online-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;font-family:'Space Grotesk',sans-serif;text-transform:uppercase;letter-spacing:.5px}
+.badge-pin{background:rgba(245,158,11,.12);color:var(--gold);border:1px solid rgba(245,158,11,.25)}
+.badge-new{background:rgba(52,211,153,.12);color:var(--green);border:1px solid rgba(52,211,153,.25)}
 
 /* AUTH MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:500}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:500}
 .modal-overlay.active{display:flex}
-.modal{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:32px;width:420px;max-width:95vw}
-.modal-title{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;letter-spacing:2px;color:#fff;margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:32px;width:440px;max-width:95vw}
+.modal-logo{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:#fff;margin-bottom:6px}
+.modal-sub{font-size:13px;color:var(--muted2);margin-bottom:28px}
+.modal-tabs{display:flex;background:var(--bg3);border-radius:8px;padding:3px;margin-bottom:24px;gap:3px}
+.modal-tab{flex:1;text-align:center;padding:8px;border-radius:6px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;cursor:pointer;color:var(--muted2);transition:all .15s}
+.modal-tab.active{background:var(--accent);color:#fff}
 .field{margin-bottom:16px}
-.field label{display:block;font-size:11px;font-family:'Rajdhani',sans-serif;letter-spacing:1.5px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
-.error-msg{color:var(--red);font-size:12px;margin-top:8px;min-height:16px}
-.modal-tabs{display:flex;gap:4px;margin-bottom:24px}
-.modal-tab{flex:1;text-align:center;padding:8px;border-radius:4px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;color:var(--muted);border:1px solid var(--border);transition:all .15s}
-.modal-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.field label{display:block;font-size:12px;font-weight:500;color:var(--muted2);margin-bottom:6px}
+.err{color:var(--red);font-size:12px;margin-top:8px;min-height:18px}
 
-/* INVITE CARD */
-.invite-code{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:10px 16px;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;color:#fff;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.invite-used{opacity:.4}
-.invite-code .copy-btn{font-size:11px;color:var(--accent);cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1px}
-
-/* THREAD VIEW */
-.thread-header-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:16px}
-.thread-big-title{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:8px}
+/* NEW THREAD MODAL */
+.modal-wide{width:640px}
 
 /* BREADCRUMB */
-.breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin-bottom:16px}
-.breadcrumb span{color:var(--muted);cursor:pointer}
-.breadcrumb span:hover{color:var(--accent)}
-.breadcrumb i{font-size:10px}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted2);margin-bottom:20px}
+.breadcrumb .crumb{cursor:pointer;transition:color .1s}
+.breadcrumb .crumb:hover{color:var(--accent)}
+.breadcrumb i{font-size:11px;color:var(--muted)}
+
+/* THREAD VIEW HEADER */
+.thread-view-header{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px}
+.thread-view-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.3}
+.thread-view-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+
+/* SIDEBAR */
+.sidebar-section{margin-bottom:20px}
+.sidebar-title{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.stat-item{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)}
+.stat-item:last-child{border-bottom:none}
+.stat-item-val{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;color:#e2e8f0}
+.online-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;flex-shrink:0}
+
+/* ROULETTE */
+.roulette-wheel{width:200px;height:200px;border-radius:50%;border:4px solid var(--border2);margin:0 auto 24px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:conic-gradient(
+  var(--accent) 0deg 18deg,
+  var(--bg3) 18deg 360deg
+);transition:transform 3s cubic-bezier(.17,.67,.12,.99)}
+.roulette-center{width:60px;height:60px;border-radius:50%;background:var(--bg2);border:3px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:22px;z-index:2}
+.roulette-needle{position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:20px solid var(--gold);z-index:3}
+.roulette-result{text-align:center;padding:20px;border-radius:12px;margin-top:16px}
+.roulette-win{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2)}
+.roulette-lose{background:rgba(74,86,112,.1);border:1px solid var(--border)}
+
+/* INVITE CARD */
+.invite-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.invite-code-text{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;color:#fff;letter-spacing:1px}
+.invite-used{opacity:.4}
+
+/* PROFILE SECTION */
+.profile-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px;display:flex;align-items:center;gap:20px}
+
+/* USER PILL */
+.user-pill{display:flex;align-items:center;gap:8px;padding:5px 12px 5px 5px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;cursor:pointer;transition:all .15s}
+.user-pill:hover{border-color:var(--accent)}
+
+/* ADMIN TABLE */
+.admin-user-row{display:grid;grid-template-columns:50px 1fr 140px 80px 80px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);gap:12px;font-size:13px}
+.admin-user-row:last-child{border-bottom:none}
 
 /* TOAST */
-.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:12px 20px;font-size:13px;color:#fff;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:12px 20px;font-size:13px;color:#fff;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;display:flex;align-items:center;gap:8px;max-width:320px}
 .toast.show{transform:translateY(0);opacity:1}
-.toast.success{border-color:var(--green);color:var(--green)}
-.toast.error{border-color:var(--red);color:var(--red)}
-
-/* FORM BOX */
-.form-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px}
-
-/* ADMIN */
-.user-row{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);gap:12px;font-size:13px}
-.user-row:last-child{border-bottom:none}
+.toast.success{border-color:rgba(52,211,153,.4);color:var(--green)}
+.toast.error{border-color:rgba(248,113,113,.4);color:var(--red)}
 
 /* EMPTY */
-.empty{text-align:center;padding:48px 20px;color:var(--muted);font-size:13px}
-.empty i{font-size:36px;display:block;margin-bottom:12px;opacity:.4}
+.empty{text-align:center;padding:60px 20px;color:var(--muted2)}
+.empty i{font-size:40px;display:block;margin-bottom:12px;opacity:.3}
+.empty p{font-size:14px}
 
-@media(max-width:768px){
-  .layout-2col{grid-template-columns:1fr}
-  .sidebar-col{display:none}
-  .forum-row{grid-template-columns:auto 1fr;gap:10px}
-  .f-latest,.f-stats:last-child{display:none}
-  .thread-row{grid-template-columns:1fr auto}
+/* REPLY BOX */
+.reply-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-top:16px}
+.reply-box-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:var(--muted2);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px}
+
+/* SECTION HEAD */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sec-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:#fff}
+
+/* STATUS BAR */
+.status-bar{background:var(--bg2);border-top:1px solid var(--border);padding:8px 28px;display:flex;align-items:center;gap:16px;font-size:11px;color:var(--muted);flex-shrink:0}
+
+/* SELECT ROLE */
+select.role-select{width:auto;padding:4px 8px;font-size:12px;border-radius:4px}
+
+@media(max-width:900px){
+  .sidebar{display:none}
+  .cat-row{grid-template-columns:44px 1fr 70px}
+  .cat-latest{display:none}
+  .admin-user-row{grid-template-columns:1fr auto}
 }
 </style>
 </head>
 <body>
+<div class="app">
 
+<!-- NAVBAR -->
 <nav class="navbar">
-  <div class="logo" onclick="navigate('home')">NEX<span>US</span></div>
+  <div class="logo" onclick="navigate('home')">
+    <div class="logo-icon"><i class="ti ti-infinity" style="color:#fff;font-size:16px"></i></div>
+    Equinox
+  </div>
   <div class="nav-links">
-    <a onclick="navigate('home')" data-page="home">Forum</a>
-    <a onclick="navigate('invites')" data-page="invites" id="nav-invites" style="display:none">Invites</a>
-    <a onclick="navigate('admin')" data-page="admin" id="nav-admin" style="display:none">Admin</a>
+    <div class="nav-link active" data-page="home" onclick="navigate('home')"><i class="ti ti-layout-2"></i>Forum</div>
+    <div class="nav-link" data-page="roulette" onclick="navigate('roulette')" id="nav-roulette" style="display:none"><i class="ti ti-rotate-clockwise"></i>Roulette</div>
+    <div class="nav-link" data-page="invites" onclick="navigate('invites')" id="nav-invites" style="display:none"><i class="ti ti-ticket"></i>Invites</div>
+    <div class="nav-link" data-page="admin" onclick="navigate('admin')" id="nav-admin" style="display:none"><i class="ti ti-shield"></i>Admin</div>
   </div>
-  <div class="nav-right">
-    <div id="auth-btn-area"></div>
-  </div>
+  <div class="nav-right" id="auth-area"></div>
 </nav>
 
 <!-- AUTH MODAL -->
 <div class="modal-overlay" id="auth-modal">
   <div class="modal">
-    <div class="modal-title"><i class="ti ti-shield-lock" style="color:var(--accent)"></i> NEXUS</div>
+    <div class="modal-logo">Equinox</div>
+    <div class="modal-sub">Invite-only community</div>
     <div class="modal-tabs">
-      <div class="modal-tab active" onclick="switchTab('login')">Login</div>
-      <div class="modal-tab" onclick="switchTab('register')">Registrieren</div>
+      <div class="modal-tab active" onclick="switchTab('login')">Sign In</div>
+      <div class="modal-tab" onclick="switchTab('register')">Register</div>
     </div>
     <div id="login-form">
-      <div class="field"><label>Username</label><input id="l-user" placeholder="Dein Username" autocomplete="username"></div>
-      <div class="field"><label>Passwort</label><input id="l-pass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
-      <button class="btn-primary" style="width:100%" onclick="doLogin()">Einloggen</button>
-      <div class="error-msg" id="l-err"></div>
+      <div class="field"><label>Username</label><input id="l-user" placeholder="Your username" autocomplete="username"></div>
+      <div class="field"><label>Password</label><input id="l-pass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+      <button class="btn-primary" style="width:100%;justify-content:center" onclick="doLogin()"><i class="ti ti-login"></i>Sign In</button>
+      <div class="err" id="l-err"></div>
     </div>
     <div id="register-form" style="display:none">
-      <div class="field"><label>Invite-Code</label><input id="r-invite" placeholder="NX-XXXXXX-XXXX"></div>
-      <div class="field"><label>Username</label><input id="r-user" placeholder="3–20 Zeichen"></div>
-      <div class="field"><label>Email</label><input id="r-email" type="email" placeholder="deine@email.de"></div>
-      <div class="field"><label>Passwort</label><input id="r-pass" type="password" placeholder="Min. 6 Zeichen"></div>
-      <button class="btn-primary" style="width:100%" onclick="doRegister()">Account erstellen</button>
-      <div class="error-msg" id="r-err"></div>
+      <div class="field"><label>Invite Code</label><input id="r-invite" placeholder="EQX-XXXX-XXXX"></div>
+      <div class="field"><label>Username</label><input id="r-user" placeholder="3–20 characters"></div>
+      <div class="field"><label>Email</label><input id="r-email" type="email" placeholder="your@email.com"></div>
+      <div class="field"><label>Password</label><input id="r-pass" type="password" placeholder="Min. 6 characters"></div>
+      <button class="btn-primary" style="width:100%;justify-content:center" onclick="doRegister()"><i class="ti ti-user-plus"></i>Create Account</button>
+      <div class="err" id="r-err"></div>
     </div>
-    <button class="btn-ghost btn-sm" style="margin-top:12px;width:100%" onclick="closeModal()">Schließen</button>
-  </div>
-</div>
-
-<!-- HOME PAGE -->
-<div class="page active" id="page-home">
-  <div class="container">
-    <div class="layout-2col">
-      <div>
-        <div class="sec-head">
-          <div class="sec-title">Forum</div>
-          <button class="btn-primary btn-sm" onclick="showNewThread()" id="btn-new-thread" style="display:none">+ Neuer Thread</button>
-        </div>
-        <div id="categories-list"></div>
-      </div>
-      <div class="sidebar-col">
-        <div class="card" style="margin-bottom:14px">
-          <div class="card-header">Statistik</div>
-          <div style="padding:14px" id="stats-box"></div>
-        </div>
-        <div class="card">
-          <div class="card-header">Produkt Status</div>
-          <div style="padding:14px">
-            <div class="stat-row"><span>NEXUS Internal</span><span style="color:var(--green);font-size:12px;font-weight:700">✓ Undetected</span></div>
-            <div class="stat-row"><span>Skinchanger</span><span style="color:var(--green);font-size:12px;font-weight:700">✓ Safe</span></div>
-            <div class="stat-row"><span>External Radar</span><span style="color:var(--yellow);font-size:12px;font-weight:700">⚠ Update</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- CATEGORY PAGE -->
-<div class="page" id="page-category">
-  <div class="container">
-    <div class="breadcrumb">
-      <span onclick="navigate('home')">Forum</span>
-      <i class="ti ti-chevron-right"></i>
-      <span id="cat-breadcrumb-name"></span>
-    </div>
-    <div class="layout-2col">
-      <div>
-        <div class="sec-head">
-          <div class="sec-title" id="cat-page-title"></div>
-          <button class="btn-primary btn-sm" onclick="showNewThreadInCat()" id="btn-new-thread-cat" style="display:none">+ Neuer Thread</button>
-        </div>
-        <div class="card" id="threads-list"></div>
-      </div>
-      <div class="sidebar-col">
-        <div class="card" style="margin-bottom:14px">
-          <div class="card-header">Statistik</div>
-          <div style="padding:14px" id="stats-box-cat"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- THREAD PAGE -->
-<div class="page" id="page-thread">
-  <div class="container">
-    <div class="breadcrumb">
-      <span onclick="navigate('home')">Forum</span>
-      <i class="ti ti-chevron-right"></i>
-      <span id="thread-cat-crumb" style="cursor:pointer"></span>
-      <i class="ti ti-chevron-right"></i>
-      <span id="thread-title-crumb"></span>
-    </div>
-    <div class="layout-2col">
-      <div>
-        <div class="thread-header-box">
-          <div class="thread-big-title" id="thread-view-title"></div>
-          <div style="font-size:12px;color:var(--muted)" id="thread-view-meta"></div>
-        </div>
-        <div class="card" id="posts-list"></div>
-        <div class="form-box" id="reply-box" style="margin-top:16px;display:none">
-          <div style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:10px">Antworten</div>
-          <textarea id="reply-content" placeholder="Deine Antwort..."></textarea>
-          <div style="margin-top:10px;display:flex;gap:8px">
-            <button class="btn-primary" onclick="submitReply()">Absenden</button>
-          </div>
-          <div class="error-msg" id="reply-err"></div>
-        </div>
-        <div id="reply-login-hint" style="text-align:center;padding:16px;font-size:12px;color:var(--muted);display:none">
-          <a onclick="openModal()" style="color:var(--accent);cursor:pointer">Einloggen</a> um zu antworten
-        </div>
-      </div>
-      <div class="sidebar-col">
-        <div class="card">
-          <div class="card-header">Statistik</div>
-          <div style="padding:14px" id="stats-box-thread"></div>
-        </div>
-      </div>
-    </div>
+    <button class="btn-ghost btn-sm" style="margin-top:12px;width:100%;justify-content:center" onclick="closeModal()">Close</button>
   </div>
 </div>
 
 <!-- NEW THREAD MODAL -->
-<div class="modal-overlay" id="new-thread-modal">
-  <div class="modal" style="width:600px">
-    <div class="modal-title"><i class="ti ti-edit" style="color:var(--accent)"></i> Neuer Thread</div>
-    <div class="field">
-      <label>Kategorie</label>
-      <select id="nt-category" style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:8px 12px;color:var(--text);width:100%;font-family:'Noto Sans',sans-serif;font-size:14px">
-      </select>
-    </div>
-    <div class="field"><label>Titel</label><input id="nt-title" placeholder="Thread Titel..."></div>
-    <div class="field"><label>Inhalt</label><textarea id="nt-content" placeholder="Schreib deinen Beitrag..." style="min-height:160px"></textarea></div>
+<div class="modal-overlay" id="nt-modal">
+  <div class="modal modal-wide">
+    <div class="modal-logo" style="font-size:20px;margin-bottom:20px"><i class="ti ti-edit" style="color:var(--accent);margin-right:8px"></i>New Thread</div>
+    <div class="field"><label>Category</label><select id="nt-cat"></select></div>
+    <div class="field"><label>Title</label><input id="nt-title" placeholder="Thread title..."></div>
+    <div class="field"><label>Content</label><textarea id="nt-content" placeholder="Write your post..." style="min-height:180px"></textarea></div>
     <div style="display:flex;gap:8px">
-      <button class="btn-primary" onclick="submitThread()">Erstellen</button>
-      <button class="btn-ghost" onclick="document.getElementById('new-thread-modal').classList.remove('active')">Abbrechen</button>
+      <button class="btn-primary" onclick="submitThread()"><i class="ti ti-send"></i>Post Thread</button>
+      <button class="btn-ghost" onclick="closeNTModal()">Cancel</button>
     </div>
-    <div class="error-msg" id="nt-err"></div>
+    <div class="err" id="nt-err"></div>
   </div>
 </div>
 
-<!-- INVITES PAGE -->
-<div class="page" id="page-invites">
-  <div class="container" style="max-width:600px">
-    <div class="sec-head"><div class="sec-title">Meine Invites</div></div>
-    <div class="card" style="margin-bottom:16px">
-      <div style="padding:20px">
-        <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Du hast <strong id="invites-left" style="color:#fff"></strong> Invites übrig. Teile diese Codes mit Personen denen du vertraust.</p>
-        <button class="btn-primary" onclick="createInvite()">+ Invite generieren</button>
+<div class="content-area">
+
+<!-- ===== HOME PAGE ===== -->
+<div class="page active" id="page-home">
+  <div class="main-scroll">
+    <div class="sec-head">
+      <div class="sec-title">Forum</div>
+      <button class="btn-primary btn-sm" id="btn-new-home" style="display:none" onclick="openNTModal()"><i class="ti ti-plus"></i>New Thread</button>
+    </div>
+    <div class="card" id="cat-list"></div>
+  </div>
+  <div class="sidebar" id="sidebar-home"></div>
+</div>
+
+<!-- ===== CATEGORY PAGE ===== -->
+<div class="page" id="page-category">
+  <div class="main-scroll">
+    <div class="breadcrumb">
+      <span class="crumb" onclick="navigate('home')">Forum</span>
+      <i class="ti ti-chevron-right"></i>
+      <span id="cat-crumb"></span>
+    </div>
+    <div class="sec-head">
+      <div class="sec-title" id="cat-page-title"></div>
+      <button class="btn-primary btn-sm" id="btn-new-cat" style="display:none" onclick="openNTModal()"><i class="ti ti-plus"></i>New Thread</button>
+    </div>
+    <div class="card" id="thread-list"></div>
+  </div>
+  <div class="sidebar" id="sidebar-cat"></div>
+</div>
+
+<!-- ===== THREAD PAGE ===== -->
+<div class="page" id="page-thread">
+  <div class="main-scroll">
+    <div class="breadcrumb">
+      <span class="crumb" onclick="navigate('home')">Forum</span>
+      <i class="ti ti-chevron-right"></i>
+      <span class="crumb" id="thread-cat-crumb"></span>
+      <i class="ti ti-chevron-right"></i>
+      <span id="thread-title-crumb" style="color:var(--text)"></span>
+    </div>
+    <div class="thread-view-header" id="thread-header"></div>
+    <div class="card" id="posts-list"></div>
+    <div id="reply-area"></div>
+  </div>
+  <div class="sidebar" id="sidebar-thread"></div>
+</div>
+
+<!-- ===== ROULETTE PAGE ===== -->
+<div class="page" id="page-roulette">
+  <div class="main-scroll" style="max-width:520px;margin:0 auto">
+    <div class="sec-head"><div class="sec-title">Daily Roulette</div></div>
+    <div class="card" style="padding:32px;text-align:center">
+      <p style="color:var(--muted2);font-size:13px;margin-bottom:24px">Spin once per day for a chance to win an invite code. <strong style="color:var(--gold)">5% chance</strong> to win.</p>
+      <div style="position:relative;width:200px;margin:0 auto 24px">
+        <div class="roulette-needle"></div>
+        <div class="roulette-wheel" id="roulette-wheel">
+          <div class="roulette-center">🎰</div>
+        </div>
       </div>
+      <button class="btn-primary" id="spin-btn" onclick="spinRoulette()" style="font-size:15px;padding:12px 32px;justify-content:center;width:100%"><i class="ti ti-rotate-clockwise"></i>Spin</button>
+      <div id="roulette-result" style="margin-top:20px"></div>
+    </div>
+  </div>
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">How it works</div>
+      <div style="font-size:13px;color:var(--muted2);line-height:1.7">
+        <p style="margin-bottom:8px">🎰 Spin once per day</p>
+        <p style="margin-bottom:8px">🎫 <strong style="color:var(--gold)">5%</strong> chance to win an invite</p>
+        <p>❌ <strong style="color:var(--muted2)">95%</strong> chance of nothing</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== INVITES PAGE ===== -->
+<div class="page" id="page-invites">
+  <div class="main-scroll" style="max-width:620px;margin:0 auto">
+    <div class="sec-head"><div class="sec-title">My Invites</div></div>
+    <div class="card" style="padding:20px;margin-bottom:16px">
+      <p style="font-size:13px;color:var(--muted2);margin-bottom:16px">You have <strong id="invites-left" style="color:#fff"></strong> invite(s) left. Only share with people you trust.</p>
+      <button class="btn-primary btn-sm" onclick="createInvite()"><i class="ti ti-plus"></i>Generate Invite</button>
     </div>
     <div id="invite-list"></div>
   </div>
-</div>
-
-<!-- ADMIN PAGE -->
-<div class="page" id="page-admin">
-  <div class="container">
-    <div class="sec-head"><div class="sec-title">Admin Panel</div></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
-      <div class="card">
-        <div class="card-header">Admin Invite erstellen</div>
-        <div style="padding:16px">
-          <button class="btn-primary" onclick="adminCreateInvite()">Invite generieren</button>
-          <div id="admin-invite-result" style="margin-top:12px"></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">Schnellinfo</div>
-        <div style="padding:14px" id="admin-stats"></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header">Alle Mitglieder</div>
-      <div id="admin-users-list"></div>
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Invite Rules</div>
+      <div style="font-size:12px;color:var(--muted2);line-height:1.7">Each code can only be used once. You are responsible for who you invite.</div>
     </div>
   </div>
 </div>
+
+<!-- ===== ADMIN PAGE ===== -->
+<div class="page" id="page-admin">
+  <div class="main-scroll">
+    <div class="sec-head"><div class="sec-title">Admin Panel</div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+      <div class="card" style="padding:20px">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--muted2);text-transform:uppercase;font-size:11px;letter-spacing:1.5px;margin-bottom:14px">Generate Invite</div>
+        <button class="btn-primary btn-sm" onclick="adminGenInvite()"><i class="ti ti-ticket"></i>Generate</button>
+        <div id="admin-invite-out" style="margin-top:12px"></div>
+      </div>
+      <div class="card" style="padding:20px" id="admin-stats-box"></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-header-title">All Members</span></div>
+      <div id="admin-user-list"></div>
+    </div>
+  </div>
+  <div class="sidebar"></div>
+</div>
+
+</div><!-- end content-area -->
+
+<div class="status-bar">
+  <span style="display:flex;align-items:center;gap:5px"><span class="online-dot"></span>Equinox Forum</span>
+  <span id="status-members" style="margin-left:auto"></span>
+</div>
+</div><!-- end app -->
 
 <div class="toast" id="toast"></div>
 
 <script>
+// ===== STATE =====
 let me = { loggedIn: false };
-let currentCatId = null;
-let currentCatName = null;
-let currentThreadId = null;
-let allCategories = [];
+let allCats = [];
+let currentCat = null;
+let currentThread = null;
 
+const ROLE_COLORS = { owner:'#f59e0b', admin:'#fb923c', media_partner:'#a78bfa', member:'#6c8ef5' };
+const ROLE_LABELS = { owner:'Owner', admin:'Admin', media_partner:'Media Partner', member:'Member' };
+
+// ===== UTILS =====
 async function api(url, opts={}) {
-  const r = await fetch(url, { headers: {'Content-Type':'application/json'}, ...opts });
+  const r = await fetch(url, { headers:{'Content-Type':'application/json'}, ...opts });
   return r.json();
 }
 
 function toast(msg, type='success') {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast ' + type;
-  t.classList.add('show');
+  t.innerHTML = `<i class="ti ti-${type==='success'?'check':'x'}"></i>${msg}`;
+  t.className = 'toast ' + type + ' show';
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-function navigate(page, data={}) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-  const pageEl = document.getElementById('page-' + page);
-  if (pageEl) pageEl.classList.add('active');
-  const navEl = document.querySelector(`.nav-links a[data-page="${page}"]`);
-  if (navEl) navEl.classList.add('active');
-
-  if (page === 'home') loadHome();
-  if (page === 'category') loadCategory(data.catId, data.catName);
-  if (page === 'thread') loadThread(data.threadId, data.catId, data.catName);
-  if (page === 'invites') loadInvites();
-  if (page === 'admin') loadAdmin();
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+function timeAgo(ts) {
+  const d = Date.now()-ts, s=Math.floor(d/1000), m=Math.floor(s/60), h=Math.floor(m/60), day=Math.floor(h/24);
+  if(s<60) return 'just now';
+  if(m<60) return m+'m ago';
+  if(h<24) return h+'h ago';
+  if(day<7) return day+'d ago';
+  return new Date(ts).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+
+function avatarBg(name) {
+  const colors=['#6c8ef5','#a78bfa','#fb923c','#34d399','#f472b6','#38bdf8'];
+  let h=0; for(let c of name) h=(h*31+c.charCodeAt(0))%colors.length;
+  return colors[h];
+}
+
+function roleBadge(role) {
+  return `<span class="role-badge role-${role}"><i class="ti ti-${roleIcon(role)}" style="font-size:10px"></i>${esc(ROLE_LABELS[role]||role)}</span>`;
+}
+
+function roleIcon(role) {
+  return {owner:'crown',admin:'shield',media_partner:'camera',member:'user'}[role]||'user';
+}
+
+function avatarEl(name, size='sm') {
+  return `<div class="avatar avatar-${size}" style="background:${avatarBg(name)}">${name[0]||'?'}</div>`;
+}
+
+function sidebarStats(stats) {
+  return `<div class="sidebar-section">
+    <div class="sidebar-title">Statistics</div>
+    <div class="stat-item"><span style="font-size:12px;color:var(--muted2)">Members</span><span class="stat-item-val">${stats.users}</span></div>
+    <div class="stat-item"><span style="font-size:12px;color:var(--muted2)">Threads</span><span class="stat-item-val">${stats.threads}</span></div>
+    <div class="stat-item"><span style="font-size:12px;color:var(--muted2)">Posts</span><span class="stat-item-val">${stats.posts}</span></div>
+    ${stats.latestMember?`<div class="stat-item"><span style="font-size:12px;color:var(--muted2)">Newest</span><span class="stat-item-val" style="font-size:12px">${esc(stats.latestMember)}</span></div>`:''}
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Product Status</div>
+    <div class="stat-item"><span style="font-size:12px;color:var(--muted2)">Internal</span><span style="font-size:12px;font-weight:600;color:var(--green)">✓ Undetected</span></div>
+    <div class="stat-item"><span style="font-size:12px;color:var(--muted2)">Skinchanger</span><span style="font-size:12px;font-weight:600;color:var(--green)">✓ Safe</span></div>
+    <div class="stat-item"><span style="font-size:12px;color:var(--muted2)">Radar</span><span style="font-size:12px;font-weight:600;color:var(--gold)">⚠ Updating</span></div>
+  </div>`;
+}
+
+// ===== NAVIGATION =====
+function navigate(page, data={}) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  const navEl = document.querySelector(`.nav-link[data-page="${page}"]`);
+  if(navEl) navEl.classList.add('active');
+
+  if(page==='home') loadHome();
+  if(page==='category') loadCategory(data.catId, data.catName, data.catColor);
+  if(page==='thread') loadThread(data.threadId);
+  if(page==='roulette') loadRoulette();
+  if(page==='invites') loadInvites();
+  if(page==='admin') loadAdmin();
+}
+
+// ===== AUTH =====
 async function initMe() {
   me = await api('/api/me');
-  renderAuthArea();
-  loadHome();
-}
-
-function renderAuthArea() {
-  const el = document.getElementById('auth-btn-area');
-  const btnNew = document.getElementById('btn-new-thread');
-  const navInvites = document.getElementById('nav-invites');
-  const navAdmin = document.getElementById('nav-admin');
-  if (me.loggedIn) {
-    el.innerHTML = `<div class="user-pill" onclick="navigate('invites')">
-      <div class="avatar">${me.username[0].toUpperCase()}</div>
-      <span style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:13px">${me.username}</span>
-      <span style="font-size:10px;color:var(--muted);margin-left:2px">${me.uid}</span>
-      </div>
-      <button class="btn-ghost btn-sm" onclick="doLogout()" style="margin-left:6px">Logout</button>`;
-    if (btnNew) btnNew.style.display = 'block';
-    navInvites.style.display = 'inline';
-    if (me.role === 'admin') navAdmin.style.display = 'inline';
-  } else {
-    el.innerHTML = `<button class="btn-primary btn-sm" onclick="openModal()">Login / Register</button>`;
-    if (btnNew) btnNew.style.display = 'none';
-    navInvites.style.display = 'none';
-    navAdmin.style.display = 'none';
-  }
-}
-
-function openModal() { document.getElementById('auth-modal').classList.add('active'); }
-function closeModal() { document.getElementById('auth-modal').classList.remove('active'); }
-
-function switchTab(tab) {
-  document.getElementById('login-form').style.display = tab === 'login' ? 'block' : 'none';
-  document.getElementById('register-form').style.display = tab === 'register' ? 'block' : 'none';
-  document.querySelectorAll('.modal-tab').forEach((t,i) => t.classList.toggle('active', (tab==='login'&&i===0)||(tab==='register'&&i===1)));
-}
-
-async function doLogin() {
-  const user = document.getElementById('l-user').value.trim();
-  const pass = document.getElementById('l-pass').value;
-  const r = await api('/api/login', { method:'POST', body: JSON.stringify({ username: user, password: pass }) });
-  if (r.error) { document.getElementById('l-err').textContent = r.error; return; }
-  me = { loggedIn: true, ...r };
-  closeModal();
-  renderAuthArea();
-  toast('Willkommen, ' + me.username + '!');
-}
-
-async function doRegister() {
-  const r = await api('/api/register', { method:'POST', body: JSON.stringify({
-    inviteCode: document.getElementById('r-invite').value.trim(),
-    username: document.getElementById('r-user').value.trim(),
-    email: document.getElementById('r-email').value.trim(),
-    password: document.getElementById('r-pass').value
-  })});
-  if (r.error) { document.getElementById('r-err').textContent = r.error; return; }
-  toast('Account erstellt! Jetzt einloggen.');
-  switchTab('login');
-}
-
-async function doLogout() {
-  await api('/api/logout', { method:'POST' });
-  me = { loggedIn: false };
   renderAuthArea();
   navigate('home');
 }
 
-async function loadHome() {
-  const [cats, stats] = await Promise.all([api('/api/categories'), api('/api/stats')]);
-  allCategories = cats;
+function renderAuthArea() {
+  const el = document.getElementById('auth-area');
+  const navR = document.getElementById('nav-roulette');
+  const navI = document.getElementById('nav-invites');
+  const navA = document.getElementById('nav-admin');
 
-  document.getElementById('btn-new-thread').style.display = me.loggedIn ? 'block' : 'none';
-
-  // Stats
-  document.getElementById('stats-box').innerHTML = `
-    <div class="stat-row"><span>Mitglieder</span><span class="stat-val">${stats.users}</span></div>
-    <div class="stat-row"><span>Threads</span><span class="stat-val">${stats.threads}</span></div>
-    <div class="stat-row"><span>Beiträge</span><span class="stat-val">${stats.posts}</span></div>
-    <div class="stat-row"><span>Neuestes Mitglied</span><span class="stat-val" style="font-size:12px">${stats.latestMember||'—'}</span></div>`;
-
-  // Categories
-  const groupEl = document.getElementById('categories-list');
-  if (!cats.length) { groupEl.innerHTML = '<div class="empty"><i class="ti ti-inbox"></i>Keine Kategorien</div>'; return; }
-  groupEl.innerHTML = `<div class="card">${cats.map(c => `
-    <div class="forum-row" onclick="navigate('category',{catId:'${c._id}',catName:${JSON.stringify(c.name)}})">
-      <div class="f-icon" style="background:var(--bg3)"><i class="ti ${c.icon}" style="color:var(--accent)"></i></div>
-      <div><div class="f-name">${c.name}</div><div class="f-desc">${c.desc}</div></div>
-      <div class="f-stats"><strong>${c.threadCount}</strong>Threads</div>
-      <div class="f-latest">${c.lastThread ? `<a>${c.lastThread.title.slice(0,30)}${c.lastThread.title.length>30?'...':''}</a><br>${timeAgo(c.lastThread.lastPostAt)} · ${c.lastThread.authorName}` : '<span>Kein Beitrag</span>'}</div>
-    </div>`).join('')}</div>`;
+  if(me.loggedIn) {
+    el.innerHTML = `<div class="user-pill" onclick="navigate('invites')">
+      ${avatarEl(me.username,'sm')}
+      <div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px">${esc(me.username)}</div>
+        <div style="font-size:10px;color:var(--muted2)">#${me.uid}</div>
+      </div>
+      ${roleBadge(me.role)}
+    </div>
+    <button class="btn-ghost btn-sm" onclick="doLogout()"><i class="ti ti-logout"></i>Logout</button>`;
+    navR.style.display='flex';
+    navI.style.display='flex';
+    if(['owner','admin'].includes(me.role)) navA.style.display='flex';
+    document.getElementById('btn-new-home').style.display='flex';
+    document.getElementById('btn-new-cat').style.display='flex';
+  } else {
+    el.innerHTML=`<button class="btn-primary btn-sm" onclick="openModal()"><i class="ti ti-login"></i>Sign In</button>`;
+    navR.style.display=navI.style.display=navA.style.display='none';
+    document.getElementById('btn-new-home').style.display='none';
+    document.getElementById('btn-new-cat').style.display='none';
+  }
+  document.getElementById('status-members').textContent = me.loggedIn ? `Logged in as ${me.username} · #${me.uid}` : '';
 }
 
-async function loadCategory(catId, catName) {
-  currentCatId = catId;
-  currentCatName = catName;
-  document.getElementById('cat-breadcrumb-name').textContent = catName;
-  document.getElementById('cat-page-title').textContent = catName;
-  document.getElementById('btn-new-thread-cat').style.display = me.loggedIn ? 'block' : 'none';
+function openModal(){document.getElementById('auth-modal').classList.add('active');}
+function closeModal(){document.getElementById('auth-modal').classList.remove('active');}
+function switchTab(t){
+  document.getElementById('login-form').style.display=t==='login'?'block':'none';
+  document.getElementById('register-form').style.display=t==='register'?'block':'none';
+  document.querySelectorAll('.modal-tab').forEach((el,i)=>el.classList.toggle('active',(t==='login'&&i===0)||(t==='register'&&i===1)));
+}
 
-  const [threads, stats] = await Promise.all([api('/api/threads/' + catId), api('/api/stats')]);
-  document.getElementById('stats-box-cat').innerHTML = `
-    <div class="stat-row"><span>Mitglieder</span><span class="stat-val">${stats.users}</span></div>
-    <div class="stat-row"><span>Threads</span><span class="stat-val">${stats.threads}</span></div>`;
+async function doLogin(){
+  const r = await api('/api/login',{method:'POST',body:JSON.stringify({username:document.getElementById('l-user').value.trim(),password:document.getElementById('l-pass').value})});
+  if(r.error){document.getElementById('l-err').textContent=r.error;return;}
+  me={loggedIn:true,...r};
+  closeModal();renderAuthArea();toast('Welcome back, '+me.username+'!');
+}
 
-  const el = document.getElementById('threads-list');
-  if (!threads.length) { el.innerHTML = '<div class="empty"><i class="ti ti-message-off"></i>Noch keine Threads. Sei der Erste!</div>'; return; }
-  el.innerHTML = threads.map(t => `
-    <div class="thread-row" onclick="navigate('thread',{threadId:'${t._id}',catId:'${catId}',catName:${JSON.stringify(catName)}})">
-      <div>
-        <div class="t-title">${t.pinned?'<span class="badge badge-pin">📌</span> ':''} ${esc(t.title)}</div>
-        <div class="t-meta">von <strong>${esc(t.authorName)}</strong> · ${timeAgo(t.createdAt)}</div>
-      </div>
-      <div class="t-stats"><strong>${t.replyCount}</strong>Replies</div>
-      <div class="t-stats"><strong>${t.views}</strong>Views</div>
+async function doRegister(){
+  const r=await api('/api/register',{method:'POST',body:JSON.stringify({
+    inviteCode:document.getElementById('r-invite').value.trim(),
+    username:document.getElementById('r-user').value.trim(),
+    email:document.getElementById('r-email').value.trim(),
+    password:document.getElementById('r-pass').value
+  })});
+  if(r.error){document.getElementById('r-err').textContent=r.error;return;}
+  toast('Account created! Sign in now.');switchTab('login');
+}
+
+async function doLogout(){
+  await api('/api/logout',{method:'POST'});
+  me={loggedIn:false};renderAuthArea();navigate('home');
+}
+
+// ===== HOME =====
+async function loadHome(){
+  const [cats,stats]=await Promise.all([api('/api/categories'),api('/api/stats')]);
+  allCats=cats;
+  document.getElementById('sidebar-home').innerHTML=sidebarStats(stats);
+  if(!cats.length){document.getElementById('cat-list').innerHTML='<div class="empty"><i class="ti ti-inbox"></i><p>No categories yet.</p></div>';return;}
+  document.getElementById('cat-list').innerHTML=cats.map(c=>`
+    <div class="cat-row" onclick="navigate('category',{catId:'${c._id}',catName:${JSON.stringify(c.name)},catColor:'${c.color}'})">
+      <div class="cat-icon" style="background:${c.color}22"><i class="ti ${c.icon}" style="color:${c.color};font-size:20px"></i></div>
+      <div><div class="cat-name">${esc(c.name)}</div><div class="cat-desc">${esc(c.desc)}</div></div>
+      <div class="cat-stat"><strong>${c.threadCount}</strong><span>Threads</span></div>
+      <div class="cat-stat"><strong>${c.postCount||0}</strong><span>Posts</span></div>
+      <div class="cat-latest">${c.lastThread?`<span class="cat-latest-title">${esc(c.lastThread.title)}</span><span>${timeAgo(c.lastThread.lastPostAt)} · ${esc(c.lastThread.authorName)}</span>`:'<span style="color:var(--muted)">No posts yet</span>'}</div>
     </div>`).join('');
 }
 
-async function loadThread(threadId, catId, catName) {
-  currentThreadId = threadId;
-  document.getElementById('thread-cat-crumb').textContent = catName || '';
-  document.getElementById('thread-cat-crumb').onclick = () => navigate('category', { catId, catName });
+// ===== CATEGORY =====
+async function loadCategory(catId, catName, catColor){
+  currentCat={id:catId,name:catName,color:catColor};
+  document.getElementById('cat-crumb').textContent=catName;
+  document.getElementById('cat-page-title').textContent=catName;
+  const [threads,stats]=await Promise.all([api('/api/threads/'+catId),api('/api/stats')]);
+  document.getElementById('sidebar-cat').innerHTML=sidebarStats(stats);
+  const el=document.getElementById('thread-list');
+  if(!threads.length){el.innerHTML='<div class="empty"><i class="ti ti-message-off"></i><p>No threads yet. Be the first!</p></div>';return;}
+  el.innerHTML=threads.map(t=>`
+    <div class="thread-row" onclick="navigate('thread',{threadId:'${t._id}'})">
+      <div>
+        <div class="thread-title">
+          ${t.pinned?'<span class="badge badge-pin"><i class="ti ti-pin" style="font-size:9px"></i>Pinned</span>':''}
+          ${esc(t.title)}
+          ${Date.now()-t.createdAt<86400000?'<span class="badge badge-new">New</span>':''}
+        </div>
+        <div class="thread-meta">by ${roleBadge(t.authorRole)} <strong>${esc(t.authorName)}</strong> · ${timeAgo(t.createdAt)}</div>
+      </div>
+      <div class="thread-stat"><strong>${t.replyCount}</strong>replies</div>
+      <div class="thread-stat"><strong>${t.views}</strong>views</div>
+    </div>`).join('');
+}
 
-  const data = await api('/api/thread/' + threadId);
-  document.getElementById('thread-title-crumb').textContent = data.thread.title.slice(0,30);
-  document.getElementById('thread-view-title').textContent = data.thread.title;
-  document.getElementById('thread-view-meta').textContent = `von ${data.thread.authorName} · ${timeAgo(data.thread.createdAt)} · ${data.thread.views} Views · ${data.thread.replyCount} Antworten`;
+// ===== THREAD =====
+async function loadThread(threadId){
+  currentThread=threadId;
+  const data=await api('/api/thread/'+threadId);
+  if(data.error){toast(data.error,'error');return;}
+  const {thread,posts,category}=data;
 
-  const postsEl = document.getElementById('posts-list');
-  const allPosts = [{ authorUid: data.thread.authorUid, authorName: data.thread.authorName, content: data.thread.content, createdAt: data.thread.createdAt, isOP: true }, ...data.posts];
-  postsEl.innerHTML = allPosts.map(p => `
-    <div class="post">
+  // Breadcrumb
+  document.getElementById('thread-cat-crumb').textContent=category?.name||'Category';
+  document.getElementById('thread-cat-crumb').onclick=()=>navigate('category',{catId:thread.categoryId,catName:category?.name,catColor:category?.color});
+  document.getElementById('thread-title-crumb').textContent=thread.title.slice(0,40)+(thread.title.length>40?'...':'');
+
+  // Thread header
+  document.getElementById('thread-header').innerHTML=`
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+      <div class="thread-view-title">${esc(thread.title)}</div>
+      ${['owner','admin'].includes(me.role)?`<div style="display:flex;gap:6px">
+        <button class="btn-ghost btn-xs" onclick="pinThread('${thread._id}')"><i class="ti ti-pin"></i>${thread.pinned?'Unpin':'Pin'}</button>
+        <button class="btn-danger btn-xs" onclick="deleteThread('${thread._id}')"><i class="ti ti-trash"></i>Delete</button>
+      </div>`:''}
+    </div>
+    <div class="thread-view-meta">
+      ${avatarEl(thread.authorName,'sm')}
+      ${roleBadge(thread.authorRole)}
+      <strong style="color:#e2e8f0">${esc(thread.authorName)}</strong>
+      <span style="color:var(--muted2);font-size:12px">${timeAgo(thread.createdAt)}</span>
+      <span style="color:var(--muted);font-size:12px">·</span>
+      <span style="color:var(--muted2);font-size:12px"><i class="ti ti-eye" style="font-size:11px"></i> ${thread.views} views</span>
+      <span style="color:var(--muted2);font-size:12px"><i class="ti ti-message" style="font-size:11px"></i> ${thread.replyCount} replies</span>
+    </div>`;
+
+  // Posts (OP + replies)
+  const allPosts=[{authorUid:thread.authorUid,authorName:thread.authorName,authorRole:thread.authorRole,content:thread.content,createdAt:thread.createdAt,isOP:true},...posts];
+  document.getElementById('posts-list').innerHTML=allPosts.map(p=>`
+    <div class="post-wrap">
       <div class="post-header">
-        <div class="avatar">${p.authorName[0].toUpperCase()}</div>
-        <div>
-          <div class="post-author">${esc(p.authorName)} ${p.isOP?'<span class="badge badge-orange">OP</span>':''}</div>
-          <div class="post-time">${timeAgo(p.createdAt)}</div>
+        <div class="post-author-row">
+          ${avatarEl(p.authorName,'md')}
+          <div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:#e2e8f0">${esc(p.authorName)}</span>
+              ${roleBadge(p.authorRole)}
+              ${p.isOP?'<span class="badge" style="background:rgba(108,142,245,.12);color:var(--accent);border:1px solid rgba(108,142,245,.25)">OP</span>':''}
+            </div>
+            <div style="font-size:11px;color:var(--muted2);margin-top:2px">${timeAgo(p.createdAt)}</div>
+          </div>
         </div>
       </div>
       <div class="post-content">${esc(p.content)}</div>
     </div>`).join('');
 
-  document.getElementById('reply-box').style.display = me.loggedIn ? 'block' : 'none';
-  document.getElementById('reply-login-hint').style.display = me.loggedIn ? 'none' : 'block';
-
-  const [stats] = await Promise.all([api('/api/stats')]);
-  document.getElementById('stats-box-thread').innerHTML = `
-    <div class="stat-row"><span>Mitglieder</span><span class="stat-val">${stats.users}</span></div>
-    <div class="stat-row"><span>Threads</span><span class="stat-val">${stats.threads}</span></div>`;
+  // Reply area
+  const stats=await api('/api/stats');
+  document.getElementById('sidebar-thread').innerHTML=sidebarStats(stats);
+  if(me.loggedIn){
+    document.getElementById('reply-area').innerHTML=`
+      <div class="reply-box">
+        <div class="reply-box-title">Post a Reply</div>
+        <textarea id="reply-content" placeholder="Write your reply..."></textarea>
+        <div style="margin-top:10px;display:flex;gap:8px">
+          <button class="btn-primary" onclick="submitReply()"><i class="ti ti-send"></i>Reply</button>
+        </div>
+        <div class="err" id="reply-err"></div>
+      </div>`;
+  } else {
+    document.getElementById('reply-area').innerHTML=`
+      <div style="text-align:center;padding:20px;font-size:13px;color:var(--muted2)">
+        <a onclick="openModal()" style="color:var(--accent);cursor:pointer;font-weight:500">Sign in</a> to reply
+      </div>`;
+  }
 }
 
-async function submitReply() {
-  const content = document.getElementById('reply-content').value.trim();
-  const r = await api('/api/thread/' + currentThreadId + '/reply', { method:'POST', body: JSON.stringify({ content }) });
-  if (r.error) { document.getElementById('reply-err').textContent = r.error; return; }
-  document.getElementById('reply-content').value = '';
-  toast('Antwort gepostet!');
-  loadThread(currentThreadId, currentCatId, currentCatName);
+async function submitReply(){
+  const content=document.getElementById('reply-content').value.trim();
+  const r=await api('/api/thread/'+currentThread+'/reply',{method:'POST',body:JSON.stringify({content})});
+  if(r.error){document.getElementById('reply-err').textContent=r.error;return;}
+  document.getElementById('reply-content').value='';
+  toast('Reply posted!');
+  loadThread(currentThread);
 }
 
-function showNewThread() {
-  if (!me.loggedIn) { openModal(); return; }
-  populateCatSelect();
-  document.getElementById('new-thread-modal').classList.add('active');
+async function pinThread(id){
+  const r=await api('/api/thread/'+id+'/pin',{method:'POST',body:'{}'});
+  if(r.ok){toast(r.pinned?'Thread pinned':'Thread unpinned');loadThread(id);}
 }
 
-function showNewThreadInCat() {
-  if (!me.loggedIn) { openModal(); return; }
-  populateCatSelect(currentCatId);
-  document.getElementById('new-thread-modal').classList.add('active');
+async function deleteThread(id){
+  if(!confirm('Delete this thread?')) return;
+  const r=await api('/api/thread/'+id,{method:'DELETE'});
+  if(r.ok){toast('Thread deleted');navigate('home');}
 }
 
-function populateCatSelect(selected) {
-  const sel = document.getElementById('nt-category');
-  sel.innerHTML = allCategories.map(c => `<option value="${c._id}" ${c._id===selected?'selected':''}>${c.name}</option>`).join('');
+// ===== NEW THREAD =====
+function openNTModal(){
+  if(!me.loggedIn){openModal();return;}
+  const sel=document.getElementById('nt-cat');
+  sel.innerHTML=allCats.map(c=>`<option value="${c._id}" ${currentCat&&c._id===currentCat.id?'selected':''}>${esc(c.name)}</option>`).join('');
+  document.getElementById('nt-modal').classList.add('active');
+}
+function closeNTModal(){document.getElementById('nt-modal').classList.remove('active');}
+
+async function submitThread(){
+  const title=document.getElementById('nt-title').value.trim();
+  const content=document.getElementById('nt-content').value.trim();
+  const categoryId=document.getElementById('nt-cat').value;
+  const r=await api('/api/threads',{method:'POST',body:JSON.stringify({categoryId,title,content})});
+  if(r.error){document.getElementById('nt-err').textContent=r.error;return;}
+  closeNTModal();
+  document.getElementById('nt-title').value='';
+  document.getElementById('nt-content').value='';
+  toast('Thread created!');
+  navigate('thread',{threadId:r.id});
 }
 
-async function submitThread() {
-  const title = document.getElementById('nt-title').value.trim();
-  const content = document.getElementById('nt-content').value.trim();
-  const categoryId = document.getElementById('nt-category').value;
-  const r = await api('/api/threads', { method:'POST', body: JSON.stringify({ categoryId, title, content }) });
-  if (r.error) { document.getElementById('nt-err').textContent = r.error; return; }
-  document.getElementById('new-thread-modal').classList.remove('active');
-  document.getElementById('nt-title').value = '';
-  document.getElementById('nt-content').value = '';
-  toast('Thread erstellt!');
-  navigate('thread', { threadId: r.id, catId: categoryId, catName: allCategories.find(c=>c._id===categoryId)?.name });
+// ===== ROULETTE =====
+async function loadRoulette(){
+  const status=await api('/api/roulette/status');
+  const btn=document.getElementById('spin-btn');
+  const res=document.getElementById('roulette-result');
+  if(status.played){
+    btn.disabled=true;btn.style.opacity='.5';btn.innerHTML='<i class="ti ti-check"></i>Already spun today';
+    showRouletteResult(status.wonInvite,status.inviteCode);
+  } else {
+    btn.disabled=false;btn.style.opacity='1';btn.innerHTML='<i class="ti ti-rotate-clockwise"></i>Spin';
+    res.innerHTML='';
+  }
 }
 
-async function loadInvites() {
-  const data = await api('/api/invites/mine');
-  document.getElementById('invites-left').textContent = me.role === 'admin' ? '∞' : data.invitesLeft;
-  const el = document.getElementById('invite-list');
-  if (!data.invites.length) { el.innerHTML = '<div class="empty" style="padding:24px"><i class="ti ti-ticket-off"></i>Noch keine Invites generiert.</div>'; return; }
-  el.innerHTML = data.invites.map(inv => `
-    <div class="invite-code ${inv.used?'invite-used':''}">
-      <span>${inv.code}</span>
-      <div style="display:flex;align-items:center;gap:12px">
-        ${inv.used ? '<span style="color:var(--muted);font-size:11px;font-family:Rajdhani">Verwendet</span>' : `<span class="copy-btn" onclick="copyCode('${inv.code}')">KOPIEREN</span>`}
-      </div>
-    </div>`).join('');
+async function spinRoulette(){
+  const btn=document.getElementById('spin-btn');
+  btn.disabled=true;btn.innerHTML='<i class="ti ti-rotate-clockwise"></i>Spinning...';
+  const wheel=document.getElementById('roulette-wheel');
+  const spins=5+Math.random()*5;
+  wheel.style.transform=`rotate(${spins*360}deg)`;
+  setTimeout(async()=>{
+    const r=await api('/api/roulette/spin',{method:'POST',body:'{}'});
+    if(r.error){toast(r.error,'error');btn.disabled=false;btn.innerHTML='<i class="ti ti-rotate-clockwise"></i>Spin';return;}
+    btn.innerHTML='<i class="ti ti-check"></i>Already spun today';
+    showRouletteResult(r.wonInvite,r.inviteCode);
+    if(r.wonInvite) toast('🎉 You won an invite!','success');
+    else toast('No luck this time. Try again tomorrow!','error');
+  },3200);
 }
 
-async function createInvite() {
-  const r = await api('/api/invites/create', { method:'POST', body:'{}' });
-  if (r.error) { toast(r.error, 'error'); return; }
-  toast('Invite generiert: ' + r.code);
-  loadInvites();
+function showRouletteResult(won,code){
+  const el=document.getElementById('roulette-result');
+  if(won){
+    el.innerHTML=`<div class="roulette-result roulette-win">
+      <div style="font-size:32px;margin-bottom:8px">🎉</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--green);margin-bottom:8px">You won an invite!</div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 16px;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:#fff;letter-spacing:1px;margin-bottom:10px">${esc(code)}</div>
+      <button class="btn-success btn-sm" onclick="navigator.clipboard.writeText('${esc(code)}');toast('Copied!')"><i class="ti ti-copy"></i>Copy Code</button>
+    </div>`;
+  } else {
+    el.innerHTML=`<div class="roulette-result roulette-lose">
+      <div style="font-size:32px;margin-bottom:8px">😞</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;color:var(--muted2)">No invite this time</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px">Come back tomorrow for another chance!</div>
+    </div>`;
+  }
 }
 
-function copyCode(code) {
-  navigator.clipboard.writeText(code);
-  toast('Code kopiert!');
-}
-
-async function loadAdmin() {
-  const [users, stats] = await Promise.all([api('/api/admin/users'), api('/api/stats')]);
-  document.getElementById('admin-stats').innerHTML = `
-    <div class="stat-row"><span>Mitglieder</span><span class="stat-val">${stats.users}</span></div>
-    <div class="stat-row"><span>Threads</span><span class="stat-val">${stats.threads}</span></div>
-    <div class="stat-row"><span>Beiträge</span><span class="stat-val">${stats.posts}</span></div>`;
-
-  document.getElementById('admin-users-list').innerHTML = users.map(u => `
-    <div class="user-row">
-      <div class="avatar">${u.username[0].toUpperCase()}</div>
+// ===== INVITES =====
+async function loadInvites(){
+  const data=await api('/api/invites/mine');
+  document.getElementById('invites-left').textContent=['owner','admin'].includes(me.role)?'∞':data.invitesLeft;
+  const el=document.getElementById('invite-list');
+  if(!data.invites.length){el.innerHTML='<div class="empty" style="padding:30px"><i class="ti ti-ticket-off"></i><p>No invites generated yet.</p></div>';return;}
+  el.innerHTML=data.invites.map(inv=>`
+    <div class="invite-card ${inv.used?'invite-used':''}">
       <div>
-        <div style="font-family:'Rajdhani',sans-serif;font-weight:600;color:#dde4ee">${esc(u.username)}</div>
-        <div style="font-size:11px;color:var(--muted)">${u.uid} · ${u.email}</div>
+        <div class="invite-code-text">${esc(inv.code)}</div>
+        <div style="font-size:11px;color:var(--muted2);margin-top:3px">${inv.used?`Used · ${timeAgo(inv.usedAt)}`:`Created ${timeAgo(inv.createdAt)}`}</div>
       </div>
-      <span class="badge ${u.role==='admin'?'badge-orange':'badge-blue'}">${u.role}</span>
-      <div style="font-size:11px;color:var(--muted)">${u.posts} Posts · ${timeAgo(u.createdAt)}</div>
+      ${!inv.used?`<button class="btn-ghost btn-xs" onclick="navigator.clipboard.writeText('${esc(inv.code)}');toast('Copied!')"><i class="ti ti-copy"></i>Copy</button>`:'<span style="font-size:11px;color:var(--muted)">Used</span>'}
     </div>`).join('');
 }
 
-async function adminCreateInvite() {
-  const r = await api('/api/admin/invite', { method:'POST', body:'{}' });
-  if (r.error) { toast(r.error,'error'); return; }
-  document.getElementById('admin-invite-result').innerHTML = `<div class="invite-code"><span>${r.code}</span><span class="copy-btn" onclick="copyCode('${r.code}')">KOPIEREN</span></div>`;
+async function createInvite(){
+  const r=await api('/api/invites/create',{method:'POST',body:'{}'});
+  if(r.error){toast(r.error,'error');return;}
+  toast('Invite generated!');loadInvites();
 }
 
-function timeAgo(ts) {
-  const d = Date.now() - ts, s = Math.floor(d/1000), m = Math.floor(s/60), h = Math.floor(m/60), day = Math.floor(h/24);
-  if (s < 60) return 'Gerade eben';
-  if (m < 60) return m + ' Min.';
-  if (h < 24) return h + ' Std.';
-  if (day < 7) return day + ' Tage';
-  return new Date(ts).toLocaleDateString('de-DE');
+// ===== ADMIN =====
+async function loadAdmin(){
+  const[users,stats]=await Promise.all([api('/api/admin/users'),api('/api/stats')]);
+  document.getElementById('admin-stats-box').innerHTML=`
+    <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--muted2);text-transform:uppercase;font-size:11px;letter-spacing:1.5px;margin-bottom:14px">Overview</div>
+    <div class="stat-item"><span style="font-size:12px;color:var(--muted2)">Members</span><span class="stat-item-val">${stats.users}</span></div>
+    <div class="stat-item"><span style="font-size:12px;color:var(--muted2)">Threads</span><span class="stat-item-val">${stats.threads}</span></div>
+    <div class="stat-item"><span style="font-size:12px;color:var(--muted2)">Posts</span><span class="stat-item-val">${stats.posts}</span></div>`;
+
+  const roleOpts=(current,targetUid)=>{
+    const roles=['member','media_partner','admin','owner'];
+    const allowed=me.role==='owner'?roles:['member','media_partner'];
+    return allowed.map(r=>`<option value="${r}" ${r===current?'selected':''}>${ROLE_LABELS[r]}</option>`).join('');
+  };
+
+  document.getElementById('admin-user-list').innerHTML=users.map(u=>`
+    <div class="admin-user-row">
+      <div>${avatarEl(u.username,'sm')}</div>
+      <div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:#e2e8f0">${esc(u.username)} <span style="font-size:11px;color:var(--muted)">#${u.uid}</span></div>
+        <div style="font-size:11px;color:var(--muted2)">${esc(u.email)} · ${u.posts} posts · joined ${timeAgo(u.createdAt)}</div>
+      </div>
+      <div>${roleBadge(u.role)}</div>
+      <div>
+        <select class="role-select" onchange="setRole(${u.uid},this.value)" style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:4px 8px;font-size:12px;color:var(--text)" ${u.role==='owner'&&me.role!=='owner'?'disabled':''}>
+          ${roleOpts(u.role,u.uid)}
+        </select>
+      </div>
+      <div>
+        ${u.role!=='owner'&&me.role==='owner'?`<button class="btn-danger btn-xs" onclick="deleteUser(${u.uid})"><i class="ti ti-trash"></i></button>`:''}
+      </div>
+    </div>`).join('');
 }
 
-function esc(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+async function setRole(uid,role){
+  const r=await api('/api/admin/setrole',{method:'POST',body:JSON.stringify({targetUid:uid,role})});
+  if(r.error){toast(r.error,'error');loadAdmin();return;}
+  toast('Role updated!');loadAdmin();
 }
 
-document.getElementById('auth-modal').addEventListener('click', e => {
-  if (e.target === document.getElementById('auth-modal')) closeModal();
-});
-document.getElementById('new-thread-modal').addEventListener('click', e => {
-  if (e.target === document.getElementById('new-thread-modal')) document.getElementById('new-thread-modal').classList.remove('active');
-});
+async function deleteUser(uid){
+  if(!confirm('Delete this user?')) return;
+  const r=await api('/api/admin/user/'+uid,{method:'DELETE'});
+  if(r.ok){toast('User deleted');loadAdmin();}
+  else toast(r.error,'error');
+}
 
-// Keyboard enter on login
-document.getElementById('l-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+async function adminGenInvite(){
+  const r=await api('/api/admin/invite',{method:'POST',body:'{}'});
+  if(r.error){toast(r.error,'error');return;}
+  document.getElementById('admin-invite-out').innerHTML=`
+    <div class="invite-card">
+      <span class="invite-code-text">${esc(r.code)}</span>
+      <button class="btn-ghost btn-xs" onclick="navigator.clipboard.writeText('${esc(r.code)}');toast('Copied!')"><i class="ti ti-copy"></i>Copy</button>
+    </div>`;
+}
+
+// ===== MODAL CLOSE ON OUTSIDE CLICK =====
+document.getElementById('auth-modal').addEventListener('click',e=>{if(e.target===document.getElementById('auth-modal'))closeModal();});
+document.getElementById('nt-modal').addEventListener('click',e=>{if(e.target===document.getElementById('nt-modal'))closeNTModal();});
+document.getElementById('l-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 
 initMe();
 </script>
