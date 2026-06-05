@@ -20,6 +20,7 @@ const db = {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname)));
 app.use(session({
   secret: 'nexus-forum-secret-2026',
   resave: false,
